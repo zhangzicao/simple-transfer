@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="renderer" content="webkit|ie-stand">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="css/H-ui.reset.css">
+  <link rel="stylesheet" type="text/css" href="css/docStyles.css">
+
+  <link rel="stylesheet" type="text/css" href="libs/simple-transfer/0.1.0/simple-transfer.css">
+</head>
+
+<body>
+<h1>穿梭框组件 - simple-transfer</h1>
+<p>基于jquery的一个简单穿梭框的实现。</p>
+
+<h2>demo1</h2>
+  <form style="margin: 10px;" id="searchForm">查询：<input type="text" id="keyWord"></form>
+  <div class="simple-transfer-container" id="transferBox1">
+  </div>
+
+
+  <hr style="margin: 30px 0; ">
+
+<h2>demo2</h2>
+  <div class="simple-transfer-container" id="transferBox2">
+  </div>
+
+  <h3>demo1代码</h3>
+  <pre>var transfer1 = new SimpleTransfer({
+  elem:"#transferBox1",
+  title:["请选择测试数据",null,"已选的测试数据"],
+  data:[
+    {id:1,name:"测试数据1"},
+    {id:2,name:"测试数据2"},
+    {id:3,name:"测试数据3"},
+    {id:4,name:"测试数据4"},
+    {id:5,name:"测试数据5"},
+    {id:6,name:"测试数据6"},
+    {id:7,name:"测试数据7"},
+    {id:8,name:"测试数据8"},
+    {id:9,name:"测试数据9"}
+  ],
+  checkedIds:['1','3','7','8']
+})</pre>
+  <p>transfer1.checkedIds为右侧列表id</p>
+
+  <h3>demo2代码</h3>
+  <pre>var transfer2 = new SimpleTransfer({
+  elem:"#transferBox2",
+  title:["请选择测试数据1","请选择测试数据2","已选的测试数据"],
+  data:[
+    [
+      {id:1,name:"测试数据1"},
+      {id:2,name:"测试数据2"},
+      {id:3,name:"测试数据3"},
+      {id:4,name:"测试数据4"},
+      {id:5,name:"测试数据5"},
+      {id:6,name:"测试数据6"},
+      {id:7,name:"测试数据7"},
+      {id:8,name:"测试数据8"},
+      {id:9,name:"测试数据9"}
+    ],[
+      {id:21,name:"测试数据21"},
+      {id:22,name:"测试数据22"},
+      {id:23,name:"测试数据23"},
+      {id:24,name:"测试数据24"},
+      {id:25,name:"测试数据25"},
+      {id:26,name:"测试数据26"},
+      {id:27,name:"测试数据27"},
+      {id:28,name:"测试数据28"},
+      {id:29,name:"测试数据29"}
+    ]
+  ],
+  checkedIds:['1+24','3+21','7+29','8+25']
+});</pre>
+  <p>transfer2.checkedIds为右侧列表id</p>
+
+<h3>参数和方法</h3>
+<pre>
+ * @param {object} option 配置
+ * @param {string|object} option.elem=.simple-transfer-container 初始化的容器
+ * @param {array} option.data 列表数据
+ * @param {string} option.data[].id 列表数据id
+ * @param {string} option.data[].name 列表数据name
+ * @param {array} option.checkedIds 右侧数据id列表
+ * @param {string} option.checkedIds[] 右侧数据项的id
+ * @property {function} filterData 筛选数据列表，传入一个function，return true时为显示，false为隐藏
+ * @return {object} 返回一个SimpleTransfer对象
+  </pre>
+  <script type="text/javascript" src="libs/jquery/1.11.3/jquery.min.js"></script>  
+  <script type="text/javascript" src="libs/simple-transfer/0.1.0/simple-transfer.js"></script>
+  <script type="text/javascript">
+
+      var transfer1 = new SimpleTransfer({
+        elem:"#transferBox1",
+        title:["请选择测试数据",null,"已选的测试数据"],
+        data:[
+          {id:1,name:"测试数据1"},
+          {id:2,name:"测试数据2"},
+          {id:3,name:"测试数据3"},
+          {id:4,name:"测试数据4"},
+          {id:5,name:"测试数据5"},
+          {id:6,name:"测试数据6"},
+          {id:7,name:"测试数据7"},
+          {id:8,name:"测试数据8"},
+          {id:9,name:"测试数据9"}
+        ],
+        checkedIds:['1','3','7','8']
+        // ,max:5 //最多选5组
+      });
+
+      //查询
+      $('#searchForm').on('submit',function (e) {
+        e.preventDefault()
+        transfer1.filterData(function (item) {
+          return item.name.indexOf($('#keyWord').val())>-1
+        })
+      })
+
+      var transfer2 = new SimpleTransfer({
+        elem:"#transferBox2",
+        title:["请选择测试数据1","请选择测试数据2","已选的测试数据"],
+        data:[
+          [
+            {id:1,name:"测试数据1"},
+            {id:2,name:"测试数据2"},
+            {id:3,name:"测试数据3"},
+            {id:4,name:"测试数据4"},
+            {id:5,name:"测试数据5"},
+            {id:6,name:"测试数据6"},
+            {id:7,name:"测试数据7"},
+            {id:8,name:"测试数据8"},
+            {id:9,name:"测试数据9"}
+          ],[
+            {id:21,name:"测试数据21"},
+            {id:22,name:"测试数据22"},
+            {id:23,name:"测试数据23"},
+            {id:24,name:"测试数据24"},
+            {id:25,name:"测试数据25"},
+            {id:26,name:"测试数据26"},
+            {id:27,name:"测试数据27"},
+            {id:28,name:"测试数据28"},
+            {id:29,name:"测试数据29"}
+          ]
+        ],
+        checkedIds:['1+24','3+21','7+29','8+25']
+        // ,max:5 //最多选5组
+      });
+  </script>
+</body>
+
+</html>

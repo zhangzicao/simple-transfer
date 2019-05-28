@@ -1,0 +1,156 @@
+@charset "utf-8";
+
+.simple-transfer-container {
+  display: table;
+  position: relative;
+  width: 600px;
+  user-select: none;
+  -webkit-user-select: none;
+  font-size: 14px;
+  table-layout: fixed;
+}
+
+.simple-transfer-container.has-col-3 {
+  width: 900px;
+}
+.simple-transfer-container.has-col-3 .simple-transfer-col-1,.simple-transfer-container.has-col-3 .simple-transfer-col-2 {
+  width: 250px;
+}
+.simple-transfer-container.has-col-3 .simple-transfer-col-3 {
+  width: 400px;
+}
+
+.simple-transfer-container:after {
+  content: ' ';
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.simple-transfer-col {
+  display: table-cell;
+  width: 300px;
+  padding-right: 40px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.simple-transfer-col-title {
+  text-align: center;
+  font-weight: bold;
+  color: #2d466f;
+  padding: 5px;
+  border: 1px solid #CCC;
+  background: #e5eff7;
+}
+
+.simple-transfer-list {
+  height: 320px;
+  border: 1px solid #CCC;
+  margin-top: -1px;
+  padding: 5px;
+  overflow: auto;
+  background: #fcfcfc;
+}
+
+.simple-transfer-list li.disabled-group,
+.simple-transfer-list li.disabled-notkey,
+.simple-transfer-list li.disabled-item {
+  display: none;
+}
+
+.simple-transfer-list li {
+  display: block;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.simple-transfer-chk {
+  display: inline-block;
+  float: left;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  vertical-align: top;
+  margin: 7px 5px 0 5px;
+  background: url("icons_chk.png") no-repeat -3px -3px;
+}
+
+.checked > .simple-transfer-chk, .checked.simple-transfer-chk {
+  background-position: -3px -27px;
+}
+
+.simple-transfer-chk-type-radio .simple-transfer-chk {
+  background-position: -27px -3px;
+}
+
+.simple-transfer-chk-type-radio .checked > .simple-transfer-chk, .simple-transfer-chk-type-radio .checked.simple-transfer-chk {
+  background-position: -27px -27px;
+}
+
+.simple-transfer-chkall {
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  cursor: pointer;
+}
+
+.simple-transfer-chk-type-radio .simple-transfer-chkall {
+  display: none;
+}
+
+.simple-transfer-list li .simple-transfer-item-text {
+  text-decoration: none;
+  display: block;
+  line-height: 22px;
+  padding: 5px;
+  color: #333;
+}
+
+.simple-transfer-list li.checked .simple-transfer-item-text {
+  color: #165a90;
+}
+
+.simple-transfer-list li:hover {
+  background-color: #ffeacc;
+}
+
+.simple-transfer-actions {
+  width: 30px;
+  margin-top: -84px;
+  margin-right: 5px;
+  position: absolute;
+  top: 50%;
+  right: 100%;
+}
+
+.simple-transfer-actions span {
+  display: block;
+  line-height: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #e5eff7;
+  text-decoration: none;
+  margin: 7px 0;
+  color: #666;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  white-space: nowrap;
+  word-wrap: normal;
+  text-align: center;
+  cursor: pointer;
+}
+
+.simple-transfer-actions span:hover {
+  background-color: #0b92e4;
+  color: #FFF;
+  border: 1px solid #0b92e4;
+}
+
+.simple-transfer-actions-one {
+  font-size: 20px;
+  line-height: 30px;
+  position: relative;
+  top: 30px;
+  text-align: center;
+  display: block;
+}
