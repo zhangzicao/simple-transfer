@@ -16,10 +16,13 @@
 </head>
 
 <body>
-<h1>穿梭框组件 - simple-transfer</h1>
-<p>基于jquery的一个简单穿梭框的实现。</p>
+<header class="page-header">
+  <h1 class="page-h1">穿梭框组件 - simple-transfer</h1>
+  <p class="page-p">基于jquery的一个简单穿梭框的实现。</p>
+  <a class="page-header-btn" href="https://github.com/zhangzicao/simple-transfer" class="btn">View on GitHub</a>
+</header>
 
-<h2>demo1</h2>
+<h2 class="page-h2">demo1</h2>
   <form style="margin: 10px;" id="searchForm">查询：<input type="text" id="keyWord"></form>
   <div class="simple-transfer-container" id="transferBox1">
   </div>
@@ -27,12 +30,12 @@
 
   <hr style="margin: 30px 0; ">
 
-<h2>demo2</h2>
+<h2 class="page-h2">demo2</h2>
   <div class="simple-transfer-container" id="transferBox2">
   </div>
 
-  <h3>demo1代码</h3>
-  <pre>var transfer1 = new SimpleTransfer({
+  <h3 class="page-h3">demo1代码</h3>
+  <pre class="page-pre">var transfer1 = new SimpleTransfer({
   elem:"#transferBox1",
   title:["请选择测试数据",null,"已选的测试数据"],
   data:[
@@ -48,10 +51,10 @@
   ],
   checkedIds:['1','3','7','8']
 })</pre>
-  <p>transfer1.checkedIds为右侧列表id</p>
+  <p class="page-p">transfer1.checkedIds为右侧列表id</p>
 
-  <h3>demo2代码</h3>
-  <pre>var transfer2 = new SimpleTransfer({
+  <h3 class="page-h3">demo2代码</h3>
+  <pre class="page-pre">var transfer2 = new SimpleTransfer({
   elem:"#transferBox2",
   title:["请选择测试数据1","请选择测试数据2","已选的测试数据"],
   data:[
@@ -79,10 +82,10 @@
   ],
   checkedIds:['1+24','3+21','7+29','8+25']
 });</pre>
-  <p>transfer2.checkedIds为右侧列表id</p>
+  <p class="page-p">transfer2.checkedIds为右侧列表id</p>
 
-<h3>参数和方法</h3>
-<pre>
+<h3 class="page-h3">参数和方法</h3>
+<pre class="page-pre">
  * @param {object} option 配置
  * @param {string|object} option.elem=.simple-transfer-container 初始化的容器
  * @param {array} option.data 列表数据
