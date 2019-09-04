@@ -3,7 +3,7 @@
  * @author zhangzicao
  * @namespace SimpleTransfer
  * @requires jquery
- * @vesion 0.1.0
+ * @vesion 0.2.0
  * @param {object} option 配置
  * @param {string|object} option.elem=.simple-transfer-container 初始化的容器
  * @param {array} option.data 列表数据
@@ -11,6 +11,9 @@
  * @param {string} option.data[].name 列表数据name
  * @param {array} option.checkedIds 右侧数据id列表
  * @param {string} option.checkedIds[] 右侧数据项的id
+ * @param {string} option.multiple 多选
+ * @param {function} option.onChange 移动时触发
+ * @property {function} getIdsAtRight 获取选中列表id集，返回一个id数组或id字符串（单选时为字符串）
  * @property {function} filterData 筛选数据列表，传入一个function，return true时为显示，false为隐藏
  * @return {object} 返回一个SimpleTransfer对象
  */
@@ -46,8 +49,10 @@
     self.$container = $(self.option.elem);
     self.data1= self.option.data.length>0 && self.option.data[0] instanceof Array?self.option.data[0]:self.option.data
     self.data2= self.option.data.length>0 && self.option.data[0] instanceof Array?self.option.data[1]:[];
-    self.multiple= self.data1.length>0 && self.data2.length>0? false: !!self.option.multiple;
+    self.isDataMerge = self.data1.length>0 && self.data2.length>0? true: false;
+    self.multiple= self.option.multiple;
     self.title= self.option.title;
+    self.onChange= self.option.onChange;
     self.checkedIds= [];
 
     //checkedIds处理
@@ -58,14 +63,14 @@
 
     self.$container.find('.simple-transfer-col').remove()
 
-    var col1= '<div class="simple-transfer-col simple-transfer-col-1 '+(!self.multiple?"simple-transfer-chk-type-radio":"")+'">' +
+    var col1= '<div class="simple-transfer-col simple-transfer-col-1 '+(!self.multiple||self.isDataMerge?"simple-transfer-chk-type-radio":"")+'">' +
         ' <div class="simple-transfer-col-title"><i class="simple-transfer-chk simple-transfer-chkall"></i>'+self.title[0]+'</div>' +
         '<ul class="simple-transfer-list">'
-        ,col2= '<div class="simple-transfer-col simple-transfer-col-2 '+(!self.multiple?"simple-transfer-chk-type-radio":"")+'">' +
+        ,col2= '<div class="simple-transfer-col simple-transfer-col-2 '+(!self.multiple||self.isDataMerge?"simple-transfer-chk-type-radio":"")+'">' +
         ' <div class="simple-transfer-col-title"><i class="simple-transfer-chk simple-transfer-chkall"></i>'+self.title[1]+'</div>' +
         ' <div class="simple-transfer-actions"><div class="simple-transfer-actions-one">+</div></div>' +
         ' <ul class="simple-transfer-list">'
-        ,col3= '<div class="simple-transfer-col simple-transfer-col-3">' +
+        ,col3= '<div class="simple-transfer-col simple-transfer-col-3 '+(!self.multiple?"simple-transfer-chk-type-radio":"")+'">' +
         ' <div class="simple-transfer-col-title"><i class="simple-transfer-chk simple-transfer-chkall"></i>'+self.title[2]+'</div>' +
         ' <ul class="simple-transfer-list simple-transfer-checked-list"></ul>' +
         ' <div class="simple-transfer-actions">' +
@@ -85,7 +90,7 @@
       self.$container.addClass('has-col-3').append(col2);
     }
     self.$container.append(col3);
-    if( self.data2.length >0) {
+    if( self.isDataMerge || !self.multiple) {
       self.$container.find('.move-all-left,.move-all-right').hide();
     }
 
@@ -110,7 +115,7 @@
 
     //选中
     self.$container.on('click','.simple-transfer-list li', function(e) {
-      if(self.multiple || $(this).closest('.simple-transfer-col-3').length>0){
+      if((self.multiple && !self.isDataMerge) || ($(this).closest('.simple-transfer-col-3').length>0 && self.isDataMerge)){
         $(this).toggleClass('checked')
         var index=$(this).closest('.simple-transfer-col-1').length>0?1:$(this).closest('.simple-transfer-col-2').length>0?2:3
         self.updateCheckBox(index)
@@ -123,10 +128,12 @@
     // 右移
     self.$container.on('click','.move-right', function () {
       self.moveCheckedToRight()
+      self.onChange && self.onChange()
     })
     // 左移
     self.$container.on('click','.move-left', function () {
       self.moveCheckedToLeft()
+      self.onChange && self.onChange()
     })
     // 全部右移
     self.$container.on('click','.move-all-right', function(e) {
@@ -134,6 +141,7 @@
         return $(this).data('id')+""
       }).get();
       self.moveToRightById(idArr)
+      self.onChange && self.onChange()
     })
     // 全部左移
     self.$container.on('click','.move-all-left', function(e) {
@@ -141,6 +149,7 @@
         return $(this).data('id')+""
       }).get();
       self.moveToLeftById(idArr)
+      self.onChange && self.onChange()
     })
   }
 
@@ -187,7 +196,7 @@
       if(self.checkedIds.indexOf(ids)>-1){
         self.checkedIds.splice(self.checkedIds.indexOf(ids),1)
       }
-      if(self.multiple==false){
+      if(!self.multiple || self.isDataMerge){
         self.$container.find('.simple-transfer-col-1 .checked').removeClass('checked')
         id2!=null && self.$container.find('.simple-transfer-col-2 .checked').removeClass('checked')
       }
@@ -217,6 +226,7 @@
     if(idArr[0].indexOf('+')==0 || idArr[0].indexOf('+')==idArr[0].length-1) {
       return;
     }
+    if(!self.multiple && self.$container.find('.simple-transfer-checked-list li').length>0) return
     self.moveToRightById(idArr);
   }
 
@@ -305,6 +315,18 @@
     });
     self.updateCheckBox(1)
     self.data2.length>0 && self.updateCheckBox(2)
+  }
+
+  //获取右侧id列表
+  SimpleTransfer.prototype.getIdsAtRight= function() {
+    var self=this;
+    var idArr= self.$container.find('.simple-transfer-col-3 .simple-transfer-list li').map(function () {
+      return $(this).data('id')+""
+    }).get();
+    if(!self.multiple){
+      idArr = idArr[0]||''
+    }
+    return idArr;
   }
 
   return SimpleTransfer;

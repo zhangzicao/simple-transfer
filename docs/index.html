@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="css/H-ui.reset.css">
   <link rel="stylesheet" type="text/css" href="css/docStyles.css">
 
-  <link rel="stylesheet" type="text/css" href="libs/simple-transfer/0.1.0/simple-transfer.css">
+  <link rel="stylesheet" type="text/css" href="libs/simple-transfer/0.2.0/simple-transfer.css">
 </head>
 
 <body>
@@ -32,6 +32,13 @@
 
 <h2 class="page-h2">demo2</h2>
   <div class="simple-transfer-container" id="transferBox2">
+  </div>
+
+
+  <hr style="margin: 30px 0; ">
+
+<h2 class="page-h2">demo3</h2>
+  <div class="simple-transfer-container" id="transferBox3">
   </div>
 
   <h3 class="page-h3">demo1代码</h3>
@@ -56,6 +63,25 @@
   <h3 class="page-h3">demo2代码</h3>
   <pre class="page-pre">var transfer2 = new SimpleTransfer({
   elem:"#transferBox2",
+  title:["请选择测试数据1","","已选的测试数据"],
+  data:[
+    {id:1,name:"测试数据1"},
+    {id:2,name:"测试数据2"},
+    {id:3,name:"测试数据3"},
+    {id:4,name:"测试数据4"},
+    {id:5,name:"测试数据5"},
+    {id:6,name:"测试数据6"},
+    {id:7,name:"测试数据7"},
+    {id:8,name:"测试数据8"},
+    {id:9,name:"测试数据9"}
+  ],
+  checkedIds:'1'
+});</pre>
+  <p class="page-p">transfer2.checkedIds为右侧列表id</p>
+
+  <h3 class="page-h3">demo3代码</h3>
+  <pre class="page-pre">var transfer3 = new SimpleTransfer({
+  elem:"#transferBox3",
   title:["请选择测试数据1","请选择测试数据2","已选的测试数据"],
   data:[
     [
@@ -82,7 +108,7 @@
   ],
   checkedIds:['1+24','3+21','7+29','8+25']
 });</pre>
-  <p class="page-p">transfer2.checkedIds为右侧列表id</p>
+  <p class="page-p">transfer3.checkedIds为右侧列表id</p>
 
 <h3 class="page-h3">参数和方法</h3>
 <pre class="page-pre">
@@ -96,8 +122,8 @@
  * @property {function} filterData 筛选数据列表，传入一个function，return true时为显示，false为隐藏
  * @return {object} 返回一个SimpleTransfer对象
   </pre>
-  <script type="text/javascript" src="libs/jquery/1.11.3/jquery.min.js"></script>  
-  <script type="text/javascript" src="libs/simple-transfer/0.1.0/simple-transfer.js"></script>
+  <script type="text/javascript" src="libs/jquery/1.11.3/jquery.min.js"></script>
+  <script type="text/javascript" src="libs/simple-transfer/0.2.0/simple-transfer.js"></script>
   <script type="text/javascript">
 
       var transfer1 = new SimpleTransfer({
@@ -119,7 +145,7 @@
       });
 
       //查询
-      $('#searchForm').on('submit',function (e) {
+      $('#searchForm').on('keyup','input',function (e) {
         e.preventDefault()
         transfer1.filterData(function (item) {
           return item.name.indexOf($('#keyWord').val())>-1
@@ -128,6 +154,24 @@
 
       var transfer2 = new SimpleTransfer({
         elem:"#transferBox2",
+        title:["请选择测试数据1","","已选的测试数据"],
+        data:[
+          {id:1,name:"测试数据1"},
+          {id:2,name:"测试数据2"},
+          {id:3,name:"测试数据3"},
+          {id:4,name:"测试数据4"},
+          {id:5,name:"测试数据5"},
+          {id:6,name:"测试数据6"},
+          {id:7,name:"测试数据7"},
+          {id:8,name:"测试数据8"},
+          {id:9,name:"测试数据9"}
+        ],
+        checkedIds: '1'
+        ,multiple: false
+      });
+
+      var transfer3 = new SimpleTransfer({
+        elem:"#transferBox3",
         title:["请选择测试数据1","请选择测试数据2","已选的测试数据"],
         data:[
           [
